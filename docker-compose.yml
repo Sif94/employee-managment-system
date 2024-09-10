@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres
+    container_name: pg_ems
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: sif
+      POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: ems_db
+    volumes:
+      - postgres:/data/postgres
+    networks:
+      - spring-ems
+    restart: unless-stopped
+  mail-dev:
+    container_name: mail-dev-bsn
+    image: maildev/maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+
+volumes:
+  postgres:
+    driver: local
+
+networks:
+  spring-ems:
+    driver: bridge
